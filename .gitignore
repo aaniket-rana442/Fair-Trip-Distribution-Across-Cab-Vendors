@@ -1,0 +1,15 @@
+# Maven
+target/
+
+# VS Code
+.vscode/
+
+# IntelliJ IDEA
+.idea/
+*.iml
+
+# Environment / secrets
+.env
+
+# Logs
+*.log

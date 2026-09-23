@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vendor Dashboard - Fair Trip Distribution</title>
+    <link rel="stylesheet" href="/css/common.css" />
+    <link rel="stylesheet" href="/css/dashboard.css" />
+    <link rel="stylesheet" href="/css/tables.css" />
+</head>
+<body>
+    <!-- Sidebar and top navbar (same as user dashboard) -->
+    <div class="sidebar" id="sidebar"></div>
+    <div class="main-content">
+        <nav class="top-navbar" id="top-navbar"></nav>
+        <header class="page-header">
+            <h1>Vendor Dashboard</h1>
+            <p id="vendor-name-display" class="vendor-name"></p>
+        </header>
+        <section class="stats-section">
+            <div class="stat-card">
+                <h3>Current Capacity</h3>
+                <p id="val-capacity" class="stat-value">0</p>
+                <div class="progress-bar">
+                    <div id="bar-capacity" class="progress" style="width:0%"></div>
+                </div>
+            </div>
+            <div class="stat-card" id="cooldown-banner" style="display:none;">
+                <h3>Cooldown</h3>
+                <p>You are in cooldown for <span id="cooldown-remaining"></span> minutes.</p>
+            </div>
+        </section>
+        <section class="breakdown-section">
+            <h2>Zone Breakdown</h2>
+            <ul id="zone-breakdown-list" class="breakdown-list"></ul>
+            <h2>Category Breakdown</h2>
+            <ul id="category-breakdown-list" class="breakdown-list"></ul>
+        </section>
+        <section class="trips-section">
+            <h2>Offered Trips</h2>
+            <table class="responsive-table" id="vendor-trips-table">
+                <thead>
+                    <tr>
+                        <th>Trip ID</th>
+                        <th>Passenger</th>
+                        <th>From → To</th>
+                        <th>Status</th>
+                        <th>Deadline</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="vendor-trips-body">
+                    <!-- Filled by vendor.js -->
+                </tbody>
+            </table>
+        </section>
+    </div>
+    <script src="/js/auth.js"></script>
+    <script src="/js/api.js"></script>
+    <script src="/js/vendor.js"></script>
+    <script>
+        // Initialize after DOM is ready
+        document.addEventListener('DOMContentLoaded', function () {
+            // Auth checks and UI population
+            Auth.requireRole('VENDOR');
+            VendorApp.loadVendorDashboard();
+        });
+    </script>
+</body>
+</html>

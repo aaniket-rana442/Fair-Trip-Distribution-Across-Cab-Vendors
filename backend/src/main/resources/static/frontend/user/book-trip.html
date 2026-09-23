@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book a Trip - FairTrip</title>
+    <link rel="stylesheet" href="/css/common.css">
+    <link rel="stylesheet" href="/css/dashboard.css">
+    <link rel="stylesheet" href="/css/forms.css">
+</head>
+<body>
+
+<div class="app-layout">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-brand">
+            <span class="sidebar-brand-icon">🚖</span>
+            <span>FairTrip Portal</span>
+        </div>
+        <ul class="sidebar-menu">
+            <li class="sidebar-item">
+                <a href="/user/dashboard.html">📊 Dashboard</a>
+            </li>
+            <li class="sidebar-item active">
+                <a href="/user/book-trip.html">➕ Book a Trip</a>
+            </li>
+            <li class="sidebar-item">
+                <a href="/user/my-trips.html">🚕 My Trips</a>
+            </li>
+        </ul>
+        <div class="sidebar-footer">
+            <div class="user-profile">
+                <span class="user-name">Loading...</span>
+                <span class="user-role">NORMAL_USER</span>
+            </div>
+            <button class="btn-logout" title="Sign Out" onclick="Auth.logout()">🚪</button>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <div class="main-wrapper">
+        <header class="top-navbar">
+            <h1 class="page-title">Book a New Trip</h1>
+        </header>
+
+        <main class="page-container" style="max-width: 750px;">
+            <div class="dashboard-card">
+                <div class="dashboard-card-header">
+                    <div>
+                        <h2 class="dashboard-card-title">Trip Booking Form</h2>
+                        <p class="text-sm text-muted">Submit your travel request for deterministic fair vendor allocation</p>
+                    </div>
+                    <button type="button" class="btn btn-secondary btn-sm" onclick="fillScenarioDemo()">
+                        ⚡ Fill Demo Scenario (Phagwara → Jalandhar, 22km)
+                    </button>
+                </div>
+
+                <form id="book-trip-form" onsubmit="UserApp.bookTrip(event)">
+                    <div class="form-group">
+                        <label class="form-label" for="passengerName">Passenger / Requester Name *</label>
+                        <input type="text" id="passengerName" class="form-control" placeholder="e.g. John Doe" required>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label" for="pickupLocation">Pickup Location *</label>
+                            <input type="text" id="pickupLocation" class="form-control" placeholder="e.g. Phagwara" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="destination">Destination *</label>
+                            <input type="text" id="destination" class="form-control" placeholder="e.g. Jalandhar" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label" for="passengerCount">Number of Passengers *</label>
+                            <input type="number" id="passengerCount" class="form-control" min="1" max="50" value="1" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="distanceKm">Trip Distance (km) *</label>
+                            <input type="number" id="distanceKm" step="0.1" min="0" class="form-control" placeholder="e.g. 22" 
+                                   oninput="UserApp.updateZoneHint(this.value)" required>
+                            <div id="zone-hint" class="form-help font-semibold mt-1">
+                                Distance Zone will be authoritative calculated by the backend
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="tripCategory">Trip Category *</label>
+                        <select id="tripCategory" class="form-control" required>
+                            <option value="NORMAL" selected>NORMAL (Standard Cab Service)</option>
+                            <option value="ESCORT">ESCORT (Requires Security Guard/Marshal)</option>
+                        </select>
+                        <span class="form-help">ESCORT category requires a vendor capable of providing trained security escort</span>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="notes">Special Instructions / Additional Notes (Optional)</label>
+                        <textarea id="notes" class="form-control" rows="3" placeholder="e.g. Employee ID 4023; pickup near East Gate"></textarea>
+                    </div>
+
+                    <div class="flex justify-between items-center mt-6">
+                        <a href="/user/dashboard.html" class="btn btn-outline">Cancel</a>
+                        <button type="submit" id="book-btn" class="btn btn-primary">Confirm & Book Trip</button>
+                    </div>
+                </form>
+            </div>
+        </main>
+    </div>
+</div>
+
+<script src="/js/api.js"></script>
+<script src="/js/auth.js"></script>
+<script src="/js/user.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        if (!Auth.requireRole('NORMAL_USER')) return;
+        const u = Auth.getUser();
+        if (u && u.name) document.getElementById('passengerName').value = u.name;
+    });
+
+    function fillScenarioDemo() {
+        document.getElementById('passengerName').value = "Executive Team";
+        document.getElementById('pickupLocation').value = "Phagwara";
+        document.getElementById('destination').value = "Jalandhar";
+        document.getElementById('passengerCount').value = "3";
+        document.getElementById('distanceKm').value = "22";
+        document.getElementById('tripCategory').value = "NORMAL";
+        document.getElementById('notes').value = "Scenario T100 Demonstration Trip";
+        UserApp.updateZoneHint("22");
+    }
+</script>
+</body>
+</html>

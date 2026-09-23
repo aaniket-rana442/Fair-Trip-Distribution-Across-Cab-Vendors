@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Trips - FairTrip</title>
+    <link rel="stylesheet" href="/css/common.css">
+    <link rel="stylesheet" href="/css/dashboard.css">
+    <link rel="stylesheet" href="/css/tables.css">
+</head>
+<body>
+
+<div class="app-layout">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-brand">
+            <span class="sidebar-brand-icon">🚖</span>
+            <span>FairTrip Portal</span>
+        </div>
+        <ul class="sidebar-menu">
+            <li class="sidebar-item">
+                <a href="/user/dashboard.html">📊 Dashboard</a>
+            </li>
+            <li class="sidebar-item">
+                <a href="/user/book-trip.html">➕ Book a Trip</a>
+            </li>
+            <li class="sidebar-item active">
+                <a href="/user/my-trips.html">🚕 My Trips</a>
+            </li>
+        </ul>
+        <div class="sidebar-footer">
+            <div class="user-profile">
+                <span class="user-name">Loading...</span>
+                <span class="user-role">NORMAL_USER</span>
+            </div>
+            <button class="btn-logout" title="Sign Out" onclick="Auth.logout()">🚪</button>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <div class="main-wrapper">
+        <header class="top-navbar">
+            <h1 class="page-title">My Booked Trips</h1>
+            <a href="/user/book-trip.html" class="btn btn-primary btn-sm">➕ Book New Trip</a>
+        </header>
+
+        <main class="page-container">
+            <div class="dashboard-card">
+                <div class="dashboard-card-header">
+                    <h2 class="dashboard-card-title">All My Travel Requests</h2>
+                    <button class="btn btn-outline btn-sm" onclick="UserApp.loadMyTrips()">🔄 Refresh</button>
+                </div>
+                <div class="table-responsive">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Trip ID</th>
+                                <th>Pickup</th>
+                                <th>Destination</th>
+                                <th>Passengers</th>
+                                <th>Distance</th>
+                                <th>Zone</th>
+                                <th>Category</th>
+                                <th>Status</th>
+                                <th>Allocated Vendor</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="my-trips-body">
+                            <tr><td colspan="10" class="text-center text-muted">Loading trips...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+
+<script src="/js/api.js"></script>
+<script src="/js/auth.js"></script>
+<script src="/js/user.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        UserApp.loadMyTrips();
+    });
+</script>
+</body>
+</html>

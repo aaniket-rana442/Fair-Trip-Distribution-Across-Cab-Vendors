@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Redirecting - Fair Trip Distribution System</title>
+    <script src="/js/auth.js"></script>
+    <script>
+        if (Auth.isAuthenticated()) {
+            const role = Auth.getRole();
+            if (role === 'ADMIN') window.location.href = '/admin/dashboard.html';
+            else if (role === 'VENDOR') window.location.href = '/vendor/dashboard.html';
+            else window.location.href = '/user/dashboard.html';
+        } else {
+            window.location.href = '/login.html';
+        }
+    </script>
+</head>
+<body>
+    <p style="text-align: center; margin-top: 20%; font-family: sans-serif; color: #64748b;">
+        Redirecting to FairTrip Portal...
+    </p>
+</body>
+</html>

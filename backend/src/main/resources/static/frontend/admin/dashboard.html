@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - FairTrip</title>
+    <link rel="stylesheet" href="/css/common.css">
+    <link rel="stylesheet" href="/css/dashboard.css">
+    <link rel="stylesheet" href="/css/tables.css">
+</head>
+<body>
+<div class="app-layout">
+    <aside class="sidebar">
+        <div class="sidebar-brand">
+            <span class="sidebar-brand-icon">&#128663;</span>
+            <span>FairTrip Portal</span>
+        </div>
+        <ul class="sidebar-menu">
+            <li class="sidebar-item active"><a href="/admin/dashboard.html">&#128202; Dashboard</a></li>
+            <li class="sidebar-item"><a href="/user/dashboard.html">&#128100; Passenger View</a></li>
+            <li class="sidebar-item"><a href="/vendor/dashboard.html">&#128652; Vendor View</a></li>
+        </ul>
+        <div class="sidebar-footer">
+            <div class="user-profile">
+                <span class="user-name">Loading...</span>
+                <span class="user-role">ADMIN</span>
+            </div>
+            <button class="btn-logout" title="Sign Out" onclick="Auth.logout()">&#128682;</button>
+        </div>
+    </aside>
+
+    <div class="main-wrapper">
+        <header class="top-navbar">
+            <h1 class="page-title">Operations Dashboard</h1>
+            <button class="btn btn-primary btn-sm" onclick="AdminApp.loadDashboard()">&#8635; Refresh</button>
+        </header>
+
+        <main class="page-container">
+            <div class="stat-grid">
+                <div class="stat-card card-info"><span class="stat-label">Trips Today</span><span class="stat-value" id="total-trips-today">0</span><span class="stat-sub">All trip requests</span></div>
+                <div class="stat-card card-warning"><span class="stat-label">Pending Allocation</span><span class="stat-value" id="pending-trips">0</span><span class="stat-sub">Awaiting assignment</span></div>
+                <div class="stat-card card-success"><span class="stat-label">Accepted Trips</span><span class="stat-value" id="accepted-trips">0</span><span class="stat-sub">Confirmed by vendors</span></div>
+                <div class="stat-card"><span class="stat-label">Completed Trips</span><span class="stat-value" id="completed-trips">0</span><span class="stat-sub">Successfully fulfilled</span></div>
+                <div class="stat-card card-info"><span class="stat-label">Active Vendors</span><span class="stat-value" id="active-vendors">0</span><span class="stat-sub">Of <span id="total-vendors">0</span> registered</span></div>
+                <div class="stat-card card-warning"><span class="stat-label">Vendor Cooldowns</span><span class="stat-value" id="vendor-cooldowns">0</span><span class="stat-sub">Currently restricted</span></div>
+            </div>
+
+            <div class="dashboard-card">
+                <div class="dashboard-card-header"><h2 class="dashboard-card-title">Pending Trips</h2></div>
+                <div class="table-responsive">
+                    <table class="data-table">
+                        <thead><tr><th>Trip</th><th>Pickup</th><th>Destination</th><th>Passengers</th><th>Zone</th><th>Category</th><th>Action</th></tr></thead>
+                        <tbody id="pending-trips-body"><tr><td colspan="7" class="text-center text-muted">Loading pending trips...</td></tr></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="dashboard-card">
+                <div class="dashboard-card-header"><h2 class="dashboard-card-title">Vendor Capacity</h2></div>
+                <div class="table-responsive">
+                    <table class="data-table">
+                        <thead><tr><th>Vendor</th><th>Code</th><th>Status</th><th>Capacity</th><th>Allocated</th><th>Accepted</th></tr></thead>
+                        <tbody id="vendors-body"><tr><td colspan="6" class="text-center text-muted">Loading vendors...</td></tr></tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+<script src="/js/api.js"></script>
+<script src="/js/auth.js"></script>
+<script src="/js/admin.js"></script>
+<script>document.addEventListener('DOMContentLoaded', () => AdminApp.loadDashboard());</script>
+</body>
+</html>

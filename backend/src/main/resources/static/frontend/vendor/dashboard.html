@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vendor Dashboard - FairTrip</title>
+    <link rel="stylesheet" href="/css/common.css">
+    <link rel="stylesheet" href="/css/dashboard.css">
+    <link rel="stylesheet" href="/css/tables.css">
+    <link rel="stylesheet" href="/css/forms.css">
+</head>
+<body>
+<div class="app-layout">
+    <aside class="sidebar">
+        <div class="sidebar-brand"><span class="sidebar-brand-icon">&#128663;</span><span>FairTrip Portal</span></div>
+        <ul class="sidebar-menu">
+            <li class="sidebar-item active"><a href="/vendor/dashboard.html">&#128202; Dashboard</a></li>
+            <li class="sidebar-item"><a href="/admin/dashboard.html">&#128187; Admin View</a></li>
+        </ul>
+        <div class="sidebar-footer">
+            <div class="user-profile"><span class="user-name">Loading...</span><span class="user-role">VENDOR</span></div>
+            <button class="btn-logout" title="Sign Out" onclick="Auth.logout()">&#128682;</button>
+        </div>
+    </aside>
+
+    <div class="main-wrapper">
+        <header class="top-navbar">
+            <h1 class="page-title">Vendor Dashboard</h1>
+            <div class="flex items-center gap-4"><span id="vendor-name-display" class="text-sm text-muted">Loading vendor...</span><button class="btn btn-primary btn-sm" onclick="VendorApp.loadVendorDashboard(); VendorApp.loadVendorTrips()">&#8635; Refresh</button></div>
+        </header>
+        <main class="page-container">
+            <div id="cooldown-banner" class="dashboard-card card-warning" style="display:none"><strong>Cooldown active</strong><p id="cooldown-details" class="mt-2"></p></div>
+            <div class="stat-grid">
+                <div class="stat-card card-info"><span class="stat-label">Available Capacity</span><span class="stat-value" id="val-capacity">0 / 0</span><span class="stat-sub">Current fleet capacity</span><div class="bar-track mt-2"><div id="bar-capacity" class="bar-fill bar-fill-actual" style="width:0%"></div></div></div>
+                <div class="stat-card card-success"><span class="stat-label">Today's Trips</span><span class="stat-value" id="val-today-actual">0</span><span class="stat-sub">Expected: <span id="val-today-expected">0.00</span></span></div>
+                <div class="stat-card card-warning"><span class="stat-label">Today's Shortfall</span><span class="stat-value" id="val-today-shortfall">0.00</span><span class="stat-sub">Against today's target</span></div>
+                <div class="stat-card"><span class="stat-label">Overall Trips</span><span class="stat-value" id="val-overall-actual">0</span><span class="stat-sub">Expected: <span id="val-overall-expected">0.00</span></span></div>
+                <div class="stat-card card-success"><span class="stat-label">Accepted</span><span class="stat-value" id="count-accepted">0</span><span class="stat-sub">Confirmed trips</span></div>
+                <div class="stat-card card-danger"><span class="stat-label">Rejected</span><span class="stat-value" id="count-rejected">0</span><span class="stat-sub">Declined offers</span></div>
+                <div class="stat-card"><span class="stat-label">Completed</span><span class="stat-value" id="count-completed">0</span><span class="stat-sub">Fulfilled trips</span></div>
+            </div>
+            <div class="dashboard-card"><div class="dashboard-card-header"><h2 class="dashboard-card-title">Trips Offered and Assigned</h2></div><div class="table-responsive"><table class="data-table"><thead><tr><th>Trip</th><th>Pickup</th><th>Destination</th><th>Passengers</th><th>Distance</th><th>Zone</th><th>Category</th><th>Status</th><th>Response</th><th>Action</th></tr></thead><tbody id="vendor-trips-body"><tr><td colspan="10" class="text-center text-muted">Loading trips...</td></tr></tbody></table></div></div>
+            <div class="dashboard-card"><div class="dashboard-card-header"><h2 class="dashboard-card-title">Zone Performance</h2></div><div id="zone-breakdown-list" class="chart-container"><p class="text-muted">Loading performance...</p></div></div>
+            <div class="dashboard-card"><div class="dashboard-card-header"><h2 class="dashboard-card-title">Category Performance</h2></div><div id="category-breakdown-list" class="chart-container"><p class="text-muted">Loading performance...</p></div></div>
+        </main>
+    </div>
+</div>
+<div id="reject-modal" class="modal-backdrop"><div class="modal-card"><div class="modal-header"><h2>Reject Trip</h2><button class="modal-close" onclick="VendorApp.closeRejectModal()">&times;</button></div><form onsubmit="VendorApp.submitReject(event)"><p>Provide a reason for rejecting Trip #<span id="reject-trip-id-display"></span>.</p><textarea id="rejection-reason" class="form-control" rows="3" required></textarea><div class="modal-actions"><button type="button" class="btn btn-outline" onclick="VendorApp.closeRejectModal()">Cancel</button><button type="submit" id="submit-reject-btn" class="btn btn-danger">Reject Trip</button></div></form></div></div>
+<script src="/js/api.js"></script>
+<script src="/js/auth.js"></script>
+<script src="/js/vendor.js"></script>
+<script>document.addEventListener('DOMContentLoaded', () => { VendorApp.loadVendorDashboard(); VendorApp.loadVendorTrips(); });</script>
+</body>
+</html>
